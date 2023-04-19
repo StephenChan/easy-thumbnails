@@ -26,11 +26,12 @@ def pil_image(source, exif_orientation=True, **options):
 
     image = Image.open(source)
     # Fully load the image now to catch any problems with the image contents.
+    old_load_truncated_images = ImageFile.LOAD_TRUNCATED_IMAGES
     try:
         ImageFile.LOAD_TRUNCATED_IMAGES = True
         image.load()
     finally:
-        ImageFile.LOAD_TRUNCATED_IMAGES = False
+        ImageFile.LOAD_TRUNCATED_IMAGES = old_load_truncated_images
 
     if exif_orientation:
         image = utils.exif_orientation(image)
